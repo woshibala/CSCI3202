@@ -1,7 +1,7 @@
 # ai3202
 This is the third assignment for the course "Introduction to AI"<br>
 The .py program takes two argument. First is the file of the World. Second is the heuristic function.<br>
-Now there are two heuristic function to choose:
+Now there are two heuristic functions to choose:
 * Manhatten distance, by entering Manhatten
 * Euclidean distance, by entering Euclid<br>
 eg. "python astar.py World1.txt Manhatten"
@@ -15,13 +15,22 @@ In world1:<br>
 total cost = 156<br>
 location evaluated = 98<br>
 path:(7,0)(6,1)(5,1)(4,1)(3,1)(2,2)(2,3)(1,4)(0,5)(0,6)(0,7)(0,8)(0,9)<br>
+<br>
+In world2:<br>
+total cost = 150<br>
+location evaluated = 71<br>
+path:(7,0)(6,1)(5,0)(4,1)(4,2)(4,3)(3,4)(2,4)(1,4)(0,5)(0,6)(0,7)(0,8)(0,9)<br>
 
 Euclidean
 --------
 In world1:<br>
 total cost = 138<br>
 location evaluated = 156<br>
-path:(7,0)(6,1)(7,2)(6,3)(5,4)(4,4)(3,5)(3,6)(2,7)(2,8)(1,9)(0,9)
+path:(7,0)(6,1)(7,2)(6,3)(5,4)(4,4)(3,5)(3,6)(2,7)(2,8)(1,9)(0,9)<br><br>
+In world2:<br>
+total cost = 152<br>
+location evaluated = 104<br>
+path:(7,0)(6,1)(7,2)(6,3)(5,3)(4,4)(3,5)(3,6)(2,7)(1,8)(0,9)<br>
 
 Compare to using Manhatten distance, using Euclidean distance can get a lower cost path, but more evaluated location.<br>
 This may result in longer running time and lower enfficience.<br>
