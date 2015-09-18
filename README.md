@@ -34,4 +34,4 @@ path:(7,0)(6,1)(7,2)(6,3)(5,3)(4,4)(3,5)(3,6)(2,7)(1,8)(0,9)<br>
 
 In World1, Compare to using Manhatten distance, using Euclidean distance can get a lower cost path, but more evaluated locations.<br>
 In World2, I get the opposite result. The Euclidean heuristic function result in higher cost but less evaluated locations.<br>
-In conclusion, neither of the two heuristic functions is better than the other. The result depends on the environment.
+In conclusion, neither of the two heuristic functions is better than the other. It depends on the environment.
