@@ -22,3 +22,6 @@ In world1:<br>
 total cost = 138<br>
 location evaluated = 156<br>
 path:(7,0)(6,1)(7,2)(6,3)(5,4)(4,4)(3,5)(3,6)(2,7)(2,8)(1,9)(0,9)
+
+Compare to using Manhatten distance, using Euclidean distance can get a lower cost path, but more evaluated location.<br>
+This may result in longer running time and lower enfficience.<br>
