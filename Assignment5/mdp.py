@@ -9,8 +9,8 @@ def input():
 	global world,method,accuracy,total
 	for i in range(0,len(sys.argv)):
 		print i,": ",sys.argv[i]
-	accuracy = 0.5#sys.argv[2]
-	file = open("World1MDP.txt")#sys.argv[1]
+	accuracy = float(sys.argv[2])
+	file = open(sys.argv[1])
 	world = []
 	line = file.readline()
 	while line != "\n":
@@ -194,12 +194,12 @@ def MDP():
 				change = abs(utility_current[a][b] - utility_previous[a][b])
 				if  change > max_change:
 					max_change = change
-	print l
 	for i in range(0,len(utility)):
 		print policy[i]
 		#print utility_current[i]
 	findPath(7,0)
-	print total
+	print "Number of loops: ",l
+	print "Total cost : ",total
 
 def findPath(x,y):
 	global policy,utility_current,total
