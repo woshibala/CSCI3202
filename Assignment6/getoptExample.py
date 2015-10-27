@@ -1,8 +1,9 @@
 import getopt, sys
-args = None
-flag = None
+graph = None
+a = None
+o = None
 def input():
-	global args,flag
+	global o,a
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], "m:g:j:p:")
 	except getopt.GetoptError as err:
@@ -40,12 +41,69 @@ def input():
 			assert False, "unhandled option"
 
 def main():
-	global args,flag
-	graph = {P:[[],["C"]],S:[[],["C"]],C:[["P","S"],["X","D"]],X:[["C"],[]],D:[["C"],[]]};
-	if flag == "-g":
-		Q = args.split("|",0)
-		E = args.split("|",1)
-		print Q,E
+	global o,a,graph
+	result = None
+	graph = {'p':[[],["c"],[0.1,0.9]],'s':[[],["c"],[0.3,0.7]],'c':[["p","s"],["x","d"],[0.05,0.02,0.03,0.001]],'x':[["c"],[]],'d':[["c"],[]]};
+	#graph["c"][2] => p=h&s=t 0.05; hf 0.02; lt 0.03; lf 0.001
+	given = {"p":0.9}
+	#A:[[parents],[children]]
+	print o,a
+	if o == "-m":
+		A = a
+		if len(graph[A][0]) == 0:#pollution and smoker
+			result = graph[A][2][0]
+			print result
+		elif len(graph[A][1]) == 0:#X-ray and Dyapnose
+			marginal(A,"c")
+		else:#cancer
+			marginal(A,"p","s")
+	if o == "-g":
+		A = a.split("/",1)[0]
+		B = a.split("/",1)[1]
+		conditional()
+		
+
+
+
+
+def conditional(A,B):
+	print A
+	print B
+	if B in graph[A][0]:#diagnostic
+		print A," is ",B,"'parent"
+		
+	elif A in graph[B][0]:#predictive
+		print B," is ",A,"'parent"
+def conditional(A,B,C):#P(A|B C)
+	print A,B,C
+	if B == "~p" and C == "s":
+		return graph[A][2][0]
+	elif B == "~p" and C == "~s":
+		return graph[A][2][1]
+	elif B == "p" and C == "s":
+		return graph[A][2][2]
+	else:
+		return graph[A][2][3]
+
+
+
+
+
+
+def marginal(A,B):
+	global graph
+	PC = marginal("c","p","s")
+
+
+def marginal(A,B,C):
+	global graph
+	r1 = conditional("c","p","s")*graph[B][2][0]*graph[C][2][0]
+	r2 = conditional("c","p","~s")*graph[B][2][0]*graph[C][2][1]
+	r3 = conditional("c","~p","s")*graph[B][2][1]*graph[C][2][0]
+	r4 = conditional("c","~p","~s")*graph[B][2][1]*graph[C][2][1]
+	print r1+r2+r3+r4
+
+
 
 
 
@@ -55,3 +113,5 @@ def main():
 def run():
 	input()
 	main()
+
+run()
