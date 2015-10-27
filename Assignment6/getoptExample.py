@@ -1,13 +1,15 @@
 import getopt, sys
-
-def main():
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "m:g:j:p:")
-    except getopt.GetoptError as err:
-        # print help information and exit:
-        print str(err) # will print something like "option -a not recognized"
-        sys.exit(2)
-    for o, a in opts:
+args = None
+flag = None
+def input():
+	global args,flag
+	try:
+		opts, args = getopt.getopt(sys.argv[1:], "m:g:j:p:")
+	except getopt.GetoptError as err:
+		# print help information and exit:
+		print str(err) # will print something like "option -a not recognized"
+		sys.exit(2)
+	for o, a in opts:
 		if o in ("-p"):
 			print "flag", o
 			print "args", a
@@ -33,11 +35,23 @@ def main():
 			#calcConditional(a[:p], a[p+1:])
 		elif o in ("-j"):
 			print "flag", o
-			print "args", a
+			print "args",  
 		else:
 			assert False, "unhandled option"
-		
-    # ...
 
-if __name__ == "__main__":
-    main()
+def main():
+	global args,flag
+	graph = {P:[[],["C"]],S:[[],["C"]],C:[["P","S"],["X","D"]],X:[["C"],[]],D:[["C"],[]]};
+	if flag == "-g":
+		Q = args.split("|",0)
+		E = args.split("|",1)
+		print Q,E
+
+
+
+
+
+
+def run():
+	input()
+	main()
