@@ -50,7 +50,7 @@ def main():
 	#graph["c"][2] => p=h&s=t 0.05; hf 0.02; lt 0.03; lf 0.001                                                         p(x|c)=0.9 p(x|~c)=0.2     p(d|c)=0.65 p(d|~c)=0.3
 	#A:[[parents],[children]]
 	file.close()
-	print o,a
+	#print o,a
 	if o == "-m":
 		A = a
 		if len(graph[A][0]) == 0:#A is pollution and smoker
@@ -117,7 +117,7 @@ def main():
 				#print "dhakjdhakchlakjs"
 				print conditional5(A,B)
 	else:
-		print "set p as",a
+		print "set s as",a
 		graph["s"][2][0] = float(a)
 		graph["s"][2][1] = 1 - float(a)
 		file = open("ps.txt","w")
