@@ -87,7 +87,6 @@ def main():
 				print cdt12(A,B)
 
 		elif len(graph[A][1]) == 0:#A is X-ray and Dyapnose
-			#print "h"
 			if A == "x" and B == "ds":
 				print cdt12(A,B)
 				return
