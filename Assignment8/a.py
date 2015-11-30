@@ -57,6 +57,7 @@ def HMM():
 		initial[ord(state[i])-95] += 1
 		if i+1 < len(state):
 			transition[ord(state[i])-95][ord(state[i+1])-95] += 1
+			#P(X-1|X)
 		i += 1
 	e_probability = []
 	for n in range(28):
@@ -84,12 +85,12 @@ def HMM():
 			if i != 1 and j != 1:
 				#emission probability
 				e_probability[i][j] = (1.0+emission[i][j])/(27.0+e_deno)
-				#normal += (1.0+emission[i][j])/(26.0+e_deno)
+		
 				#transition probability
 				t_probability[i][j] = (1.0+transition[i][j])/(27.0+t_deno)
-				normal += (1.0+transition[i][j])/(27.0+t_deno)
+	
 			j += 1
-		#print i,normal
+		
 		i += 1
 	#calculate i_probability
 	i_deno = 0
@@ -150,7 +151,7 @@ def  viterbi():
 	i = 0
 	while i < len(i_probability):
 		if i != 1:
-			EgivenX = e_probability[E1][i]
+			EgivenX = e_probability[i][E1]
 			if i_probability[i] != 0 and EgivenX != 0:
 				Pi = math.log(i_probability[i])
 				EgivenX = math.log(EgivenX)
@@ -158,37 +159,91 @@ def  viterbi():
 		else:
 			l1.append(float("-Inf"))
 		i += 1
-	v1x1_probability = max(l1)
 	v1x1 = unichr(l1.index(max(l1)) + 95)
 	statesequence.append(v1x1)
+	print v1x1
+
 	#For other state: vtxt = max{P(Et|xt)*P(Xt|Xt-1)*v(t-1)x(t-1)}
-	previousstate = v1x1
-	previousprobability = v1x1_probability
+	previousstate = []
+	previousprobability = []
+	r = 0
+	while r < 28:
+		previousstate.append(l1.index(max(l1)))
+		r += 1
+	previousprobability = l1
+
+	paths = []
 	i = 1
 	while i < len(original):
-		j = 0
-		v_list = []
-		Et = ord(evidence[i])-95
-		Xt_1 = ord(previousstate)-95
 		
-		while j < 28:
+		Et = ord(evidence[i])-95
+	
+		v_list = []
+		j = 0
+		while j < 28:#current state
 			#P(Et|xt)*P(Xt|Xt-1)*v(t-1)x(t-1)
+			v_list.append([])
 			if j != 1 :
-				if e_probability[Et][j] != 0 and t_probability[j][Xt_1] != 0:
-					EgivenX = math.log(e_probability[j][Et])
-					transition = math.log(t_probability[Xt_1][j])
-					current = EgivenX + transition + previousprobability
-					v_list.append(current)
-			else:
-				v_list.append(float("-Inf"))
+				k = 0
+				while k < 28:#previous state
+					if k != 1 and t_probability[k][j] != 0 and e_probability != 0:
+						EgivenX = math.log(e_probability[j][Et])
+						transition = math.log(t_probability[j][k])
+						current = EgivenX + transition + previousprobability[j]
+						v_list[j].append(current)
+					else:
+						v_list[j].append(float("-Inf"))
+					k += 1
 			j += 1
 		
-		previousprobability = max(v_list)
-		#print previousprobability
-		previousstate = unichr(v_list.index(max(v_list)) + 95)
-		#print previousstate,original[i]
-		statesequence.append(previousstate)
+		#set previousstate and previousprobability
+		p = 0
+		while p < 28:
+			
+			if p != 1:
+				q = 0
+				l2 = []
+				while q < 28:
+					if q != 1:
+						l2.append(v_list[q][p])
+					else:
+						l2.append(float("-Inf"))
+					q += 1
+
+				previousprobability[p] = (max(l2))
+				previousstate[p] = l2.index(max(l2))
+
+			else:
+				previousprobability[p] = (float("-Inf"))
+				previousstate[p] = -1
+			p += 1
+		
+		a = []
+		for aa in previousstate:
+			a.append(aa)
+		paths.append(a)
+			
 		i += 1
+	
+	
+	reversesequence = []
+	n = len(paths) - 2
+
+	laststate = previousprobability.index(max(previousprobability))
+	#print str(unichr(previousstate.index(max(previousstate))+95))
+	print len(paths),len(original)
+	while n >= 0:
+		reversesequence.append(str(unichr(laststate + 95)))
+		laststate = paths[n][laststate]
+		n -= 1
+	statesequence.append("n")
+	while len(reversesequence):
+		statesequence.append(reversesequence.pop())
+	i = 0
+	while i < len(statesequence):
+		print statesequence[i],original[i]
+		i += 1
+	
 	n = 0
 	k = 0.0
 	while n < len(statesequence):
@@ -208,7 +263,6 @@ def  viterbi():
 	for i in statesequence:
 		file.write(i)
 	file.close()
-
 
 def run():
 	input()
