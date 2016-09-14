@@ -1,4 +1,4 @@
-# ai3202
+# CSCI3202 Introduction to AI
 This is the third assignment for the course "Introduction to AI"<br>
 The .py program takes two argument. First is the file of the World. Second is the heuristic function.<br>
 Now there are two heuristic functions to choose:
